@@ -1,4 +1,4 @@
 echo
 ====
 
-Echo server that echos url, headers and body 
+Echo server that echos url, method, headers and body

@@ -10,7 +10,9 @@ app.use(function(req, res, next) {
 });
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Headers', '*');
+  res.header('Access-Control-Allow-Methods',
+    'GET,PUT,POST,DELETE,HEAD,OPTIONS,TRACE,CONNECT');
   next();
 });
 
@@ -18,6 +20,7 @@ function echo(req, res) {
   var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
   res.set({'Content-Type': 'text/plain'});
   var items = [
+    req.method.toUpperCase(),
     fullUrl,
     'Headers:',
     JSON.stringify(req.headers, null, 4)

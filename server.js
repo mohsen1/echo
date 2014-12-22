@@ -25,11 +25,11 @@ function echo(req, res) {
     'Headers:',
     JSON.stringify(req.headers, null, 4)
   ];
-  if (req.body) {
+  if (req.body.length) {
     items.push('Body:');
     items.push(req.body);
   }
-  res.send(items.join('\n\n'));
+  res.send(items.join('\n'));
 }
 
 // Echo all RFC 2616 verbs

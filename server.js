@@ -14,26 +14,30 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.post('*', function (req, res) {
+function echo(req, res) {
   var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
   res.set({'Content-Type': 'text/plain'});
-  res.send([
-    fullUrl,
-    'Headers:',
-    JSON.stringify(req.headers, null, 4),
-    'Body:',
-    req.body
-  ].join('\n\n'));
-});
-
-app.get('*', function (req, res) {
-  var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-  res.set({'Content-Type': 'text/plain'});
-  res.send([
+  var items = [
     fullUrl,
     'Headers:',
     JSON.stringify(req.headers, null, 4)
-  ].join('\n\n'));
-});
+  ];
+  if (req.body) {
+    items.push('Body:');
+    items.push(req.body);
+  }
+  res.send(items.join('\n\n'));
+}
+
+// Echo all RFC 2616 verbs
+app.get('*', echo);
+app.post('*', echo);
+app.put('*', echo);
+app.head('*', echo);
+app.delete('*', echo);
+app.options('*', echo);
+app.trace('*', echo);
+app.connect('*', echo);
+app.head('*', echo);
 
 app.listen(port, console.log);
